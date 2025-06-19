@@ -1,0 +1,28 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# Cek apakah API key sudah diset
+if [ -z "$OPENROUTER_API_KEY" ]; then
+  echo "❌ OPENROUTER_API_KEY belum di-export."
+  echo "Contoh: export OPENROUTER_API_KEY=sk-or-xxxxxxxx"
+  exit 1
+fi
+
+# Gabungkan semua argumen jadi prompt
+prompt="$*"
+
+if [ -z "$prompt" ]; then
+  echo "Usage: gpt \"pertanyaan kamu\""
+  exit 1
+fi
+
+# Kirim request ke OpenRouter
+response=$(curl -s https://openrouter.ai/api/v1/chat/completions \
+  -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openchat/openchat-3.5-0106",
+    "messages": [{"role": "user", "content": "'"$prompt"'"}]
+  }')
+
+# Ambil isi response pakai jq
+echo "$response" | jq -r '.choices[0].message.content'
