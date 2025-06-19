@@ -1,0 +1,7 @@
+Package: gpt-termux
+Version: 1.0
+Architecture: all
+Maintainer: KakakGPT <gpt@termux.io>
+Depends: curl, jq
+Description: CLI GPT via OpenRouter API for Termux
+ A simple GPT CLI using OpenRouter for quick AI access.
